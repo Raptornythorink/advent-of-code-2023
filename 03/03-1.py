@@ -1,5 +1,6 @@
 from typing import List, Set, Tuple
 
+
 def main():
     numbers: List[int] = []
     numbers_pos: List[List[Tuple[int, int]]] = []
@@ -26,8 +27,7 @@ def main():
                 numbers.append(int(current_number))
                 numbers_pos.append(current_number_pos)
 
-    moves = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1),
-             (1, -1), (1, 0), (1, 1)]
+    moves = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
     for number, number_pos in zip(numbers, numbers_pos):
         over = False
@@ -39,8 +39,9 @@ def main():
                     break
             if over:
                 break
-    
+
     print(sum(part_numbers))
+
 
 if __name__ == "__main__":
     main()

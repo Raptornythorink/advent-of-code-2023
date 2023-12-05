@@ -19,5 +19,6 @@ def main():
             powers.append(min_red * min_green * min_blue)
     print(sum(powers))
 
+
 if __name__ == "__main__":
     main()

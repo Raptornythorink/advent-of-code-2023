@@ -7,6 +7,7 @@ def valid_combination(number: int, color: str) -> bool:
         return False
     return True
 
+
 def main():
     possible_games = []
     with open("./input", "r") as file:
@@ -25,6 +26,7 @@ def main():
             if possible:
                 possible_games.append(i + 1)
     print(sum(possible_games))
+
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 from typing import List, Tuple
 
+
 def main():
     numbers: List[int] = []
     numbers_pos: List[List[Tuple[int, int]]] = []
@@ -26,8 +27,7 @@ def main():
                 numbers.append(int(current_number))
                 numbers_pos.append(current_number_pos)
 
-    moves = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1),
-             (1, -1), (1, 0), (1, 1)]
+    moves = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
     for gear_symbol_pos in gear_symbols_pos:
         adjacent_part_numbers = []
@@ -43,8 +43,9 @@ def main():
                     break
         if len(adjacent_part_numbers) == 2:
             gear_ratio += adjacent_part_numbers[0] * adjacent_part_numbers[1]
-    
+
     print(gear_ratio)
+
 
 if __name__ == "__main__":
     main()
