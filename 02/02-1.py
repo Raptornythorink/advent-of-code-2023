@@ -25,7 +25,10 @@ def main():
                     break
             if possible:
                 possible_games.append(i + 1)
-    print(sum(possible_games))
+
+    ids_sum = sum(possible_games)
+
+    print(ids_sum) 
 
 
 if __name__ == "__main__":

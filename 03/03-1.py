@@ -1,11 +1,8 @@
-from typing import List, Set, Tuple
-
-
 def main():
-    numbers: List[int] = []
-    numbers_pos: List[List[Tuple[int, int]]] = []
-    symbols_pos: Set[Tuple[int, int]] = set()
-    part_numbers: List[int] = []
+    numbers: list[int] = []
+    numbers_pos: list[list[tuple[int, int]]] = []
+    symbols_pos: set[tuple[int, int]] = set()
+    part_numbers: list[int] = []
 
     with open("./input", "r") as file:
         for i, line in enumerate(file):
@@ -40,7 +37,9 @@ def main():
             if over:
                 break
 
-    print(sum(part_numbers))
+    part_numbers_sum = sum(part_numbers)
+
+    print(part_numbers_sum)
 
 
 if __name__ == "__main__":

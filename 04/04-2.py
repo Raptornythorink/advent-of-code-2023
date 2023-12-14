@@ -22,7 +22,9 @@ def main():
                 if j in points:
                     points[i] += points[j]
 
-    print(sum(points.values()))
+    total_scratchcards = sum(points.values())
+
+    print(total_scratchcards)
 
 
 if __name__ == "__main__":

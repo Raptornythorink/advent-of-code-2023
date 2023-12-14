@@ -39,6 +39,7 @@ def main():
             )
             if digits:
                 total += 10 * digits[0] + digits[-1]
+
     print(total)
 
 

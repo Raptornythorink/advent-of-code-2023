@@ -1,10 +1,7 @@
-from typing import List, Tuple
-
-
 def main():
-    numbers: List[int] = []
-    numbers_pos: List[List[Tuple[int, int]]] = []
-    gear_symbols_pos: List[Tuple[int, int]] = []
+    numbers: list[int] = []
+    numbers_pos: list[list[tuple[int, int]]] = []
+    gear_symbols_pos: list[tuple[int, int]] = []
     gear_ratio = 0
 
     with open("./input", "r") as file:
