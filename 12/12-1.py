@@ -1,42 +1,46 @@
-from itertools import product
+from functools import cache
 
 
-def is_valid(springs: str, groups: list[int]) -> bool:
-    return list(map(len, [group for group in springs.split(".") if group])) == groups
+@cache
+def get_valid_arrangements_number(springs: str, groups: tuple[int]) -> int:
+    if not springs:
+        return 1 * (not groups)
+    if not groups:
+        return 1 * (not any(spring == "#" for spring in springs))
+    if len(springs) < groups[0]:
+        return 0
 
-
-def get_valid_arrangements_number(springs: str, groups: list[int]) -> int:
-    n_unkown = springs.count("?")
-    arrangements = product([".", "#"], repeat=n_unkown)
-    valid_arrangements = 0
-    for arrangement in arrangements:
-        replaced_springs = springs
-        for char in arrangement:
-            replaced_springs = replaced_springs.replace("?", char, 1)
-        if is_valid(replaced_springs, groups):
-            valid_arrangements += 1
-    return valid_arrangements
+    if springs[0] == ".":
+        return get_valid_arrangements_number(springs[1:], groups)
+    elif springs[0] == "#":
+        if any(spring == "." for spring in springs[: groups[0]]):
+            return 0
+        if len(springs) == groups[0]:
+            return 1 * (len(groups) == 1)
+        if springs[groups[0]] == "#":
+            return 0
+        return get_valid_arrangements_number(springs[groups[0] + 1 :], groups[1:])
+    return get_valid_arrangements_number(
+        springs[1:], groups
+    ) + get_valid_arrangements_number("#" + springs[1:], groups)
 
 
 def main():
     all_springs: list[str] = []
-    all_groups: list[list[int]] = []
+    all_groups: list[tuple[int]] = []
 
     with open("./input", "r") as file:
         for line in file:
             all_springs.append(line.strip().split()[0])
-            all_groups.append(list(map(int, line.strip().split()[1].split(","))))
+            all_groups.append(tuple(map(int, line.strip().split()[1].split(","))))
 
-    total_arrangements = 0
-    for springs, groups in zip(all_springs, all_groups):
-        total_arrangements += get_valid_arrangements_number(springs, groups)
-    print()
+    total_arrangements = sum(
+        get_valid_arrangements_number(springs, groups)
+        for springs, groups in zip(all_springs, all_groups)
+    )
+
     print(total_arrangements)
 
 
-from time import time
-
 if __name__ == "__main__":
-    start = time()
     main()
-    print("Time:", time() - start)
