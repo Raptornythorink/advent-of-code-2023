@@ -1,9 +1,10 @@
 def beam_path(
     grid: list[str],
-    energized: dict[tuple[int, int], list[str]],
+    energized: dict[tuple[int, int], set[str]],
     x: int,
     y: int,
     direction: str,
+    direction_map: dict[tuple[str, str], tuple[str]],
     n: int,
     m: int,
 ):
@@ -18,15 +19,8 @@ def beam_path(
             energized[(x, y)].append(direction)
             x += 1
         if x < m:
-            if grid[y][x] == "-":
-                beam_path(grid, energized, x, y, "right", n, m)
-            elif grid[y][x] == "/":
-                beam_path(grid, energized, x, y, "up", n, m)
-            elif grid[y][x] == "\\":
-                beam_path(grid, energized, x, y, "down", n, m)
-            elif grid[y][x] == "|":
-                beam_path(grid, energized, x, y, "up", n, m)
-                beam_path(grid, energized, x, y, "down", n, m)
+            for next_direction in direction_map[(direction, grid[y][x])]:
+                beam_path(grid, energized, x, y, next_direction, direction_map, n, m)
 
     elif direction == "left":
         x -= 1
@@ -34,15 +28,8 @@ def beam_path(
             energized[(x, y)].append(direction)
             x -= 1
         if x >= 0:
-            if grid[y][x] == "-":
-                beam_path(grid, energized, x, y, "left", n, m)
-            elif grid[y][x] == "/":
-                beam_path(grid, energized, x, y, "down", n, m)
-            elif grid[y][x] == "\\":
-                beam_path(grid, energized, x, y, "up", n, m)
-            elif grid[y][x] == "|":
-                beam_path(grid, energized, x, y, "up", n, m)
-                beam_path(grid, energized, x, y, "down", n, m)
+            for next_direction in direction_map[(direction, grid[y][x])]:
+                beam_path(grid, energized, x, y, next_direction, direction_map, n, m)
 
     elif direction == "down":
         y += 1
@@ -50,15 +37,8 @@ def beam_path(
             energized[(x, y)].append(direction)
             y += 1
         if y < n:
-            if grid[y][x] == "|":
-                beam_path(grid, energized, x, y, "down", n, m)
-            elif grid[y][x] == "/":
-                beam_path(grid, energized, x, y, "left", n, m)
-            elif grid[y][x] == "\\":
-                beam_path(grid, energized, x, y, "right", n, m)
-            elif grid[y][x] == "-":
-                beam_path(grid, energized, x, y, "right", n, m)
-                beam_path(grid, energized, x, y, "left", n, m)
+            for next_direction in direction_map[(direction, grid[y][x])]:
+                beam_path(grid, energized, x, y, next_direction, direction_map, n, m)
 
     elif direction == "up":
         y -= 1
@@ -66,15 +46,8 @@ def beam_path(
             energized[(x, y)].append(direction)
             y -= 1
         if y >= 0:
-            if grid[y][x] == "|":
-                beam_path(grid, energized, x, y, "up", n, m)
-            elif grid[y][x] == "/":
-                beam_path(grid, energized, x, y, "right", n, m)
-            elif grid[y][x] == "\\":
-                beam_path(grid, energized, x, y, "left", n, m)
-            elif grid[y][x] == "-":
-                beam_path(grid, energized, x, y, "right", n, m)
-                beam_path(grid, energized, x, y, "left", n, m)
+            for next_direction in direction_map[(direction, grid[y][x])]:
+                beam_path(grid, energized, x, y, next_direction, direction_map, n, m)
 
 
 def main():
@@ -84,9 +57,27 @@ def main():
             grid.append(list(line.strip()))
 
     n, m = len(grid), len(grid[0])
+    direction_map = {
+        ("right", "-"): ("right",),
+        ("right", "/"): ("up",),
+        ("right", "\\"): ("down",),
+        ("right", "|"): ("up", "down"),
+        ("left", "-"): ("left",),
+        ("left", "/"): ("down",),
+        ("left", "\\"): ("up",),
+        ("left", "|"): ("up", "down"),
+        ("down", "|"): ("down",),
+        ("down", "/"): ("left",),
+        ("down", "\\"): ("right",),
+        ("down", "-"): ("right", "left"),
+        ("up", "|"): ("up",),
+        ("up", "/"): ("right",),
+        ("up", "\\"): ("left",),
+        ("up", "-"): ("right", "left"),
+    }
 
     energized = {(x, y): [] for y in range(n) for x in range(m)}
-    beam_path(grid, energized, -1, 0, "right", n, m)
+    beam_path(grid, energized, -1, 0, "right", direction_map, n, m)
     energized_tiles = len([True for x, y in energized if energized[(x, y)]])
 
     print(energized_tiles)
