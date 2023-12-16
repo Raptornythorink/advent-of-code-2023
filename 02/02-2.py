@@ -17,7 +17,7 @@ def main():
                     elif color == "blue":
                         min_blue = max(min_blue, int(number))
             powers.append(min_red * min_green * min_blue)
-    
+
     power_sum = sum(powers)
 
     print(power_sum)

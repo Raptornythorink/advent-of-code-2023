@@ -5,7 +5,7 @@ def main():
             digits = list(filter(lambda x: x.isdigit(), line))
             if digits:
                 total += 10 * int(digits[0]) + int(digits[-1])
-                
+
     print(total)
 
 

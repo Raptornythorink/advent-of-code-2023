@@ -28,7 +28,7 @@ def main():
 
     ids_sum = sum(possible_games)
 
-    print(ids_sum) 
+    print(ids_sum)
 
 
 if __name__ == "__main__":
